@@ -1,0 +1,142 @@
+﻿@using System.Collections.Generic
+@using Abc.Models
+
+@{
+
+    ViewBag.Title = "PostAdvertisement";
+    AlertModel alert = (AlertModel)TempData["AlertMessage"];
+}
+    @if (alert != null)
+    {
+        @Html.Partial("~/Views/Shared/_AlertView.cshtml", alert);
+    }
+
+
+<h2>PostAdvertisement</h2>
+@using (Html.BeginForm("PostAdvertisement", "Advertisement", FormMethod.Post, new { id = "PostAdvForm", enctype = "multipart/form-data" }))
+{
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#genDes" data-toggle="tab">General</a></li>
+        <li><a href="#Desccription" data-toggle="tab">Desciption</a></li>
+        <li><a href="#imgform" data-toggle="tab">Images</a></li>
+    </ul>
+    <div class="tab-content">
+
+        @*General information tab*@
+
+        <div id="genDes" class="tab-pane mytabpane active">
+            <div class="form-group form-inline">
+                <div class="input-group" id="countryDiv">
+                    <sapn class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></sapn>
+                    @Html.DropDownList("CountryLId", (IEnumerable<SelectListItem>)ViewBag.Country, "- Select Country", new { @class = "form-control" })
+                </div>
+                <div class="input-group" id="stateDiv"></div>
+                <div class="input-group" id="cityDiv"></div>
+
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
+                    @Html.TextBox("AdvTitle", null, new { @class = "form-control", placeholder = "Enter Title" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><strong>Rs:</strong></span>
+                    @Html.TextBox("Price", null, new { @class = "form-control", placeholder = "Price" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    @Html.TextBox("Validity", null, new { @class = "form-control", Type = "date" })
+                </div>
+            </div>
+            <div class="form-group form-inline">
+                <div class="input-group" id="catagoryDiv">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+                    @Html.DropDownList("CatagotyId", (IEnumerable<SelectListItem>)ViewBag.Catagory, "- Select Catagory -", new { @class = "form-control" })
+                </div>
+                <div class="input-group" id="subCatagoryId">
+
+                </div>
+            </div>
+
+            <div class="form-group form-inline">
+                @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.AdvType)
+                {
+                    <label style="font-weight:normal;padding-right:30px">@Html.RadioButton("AdvType", item.Value, item.Selected) @item.Text</label>
+                }
+            </div>
+            <div class="form-group form-inline">
+                <label style="font-weight:normal">@Html.CheckBox("IsActive") This Advertisement is Active</label>
+            </div>
+        </div>
+        
+    @*Description Tab*@
+        <div id="Desccription" class="tab-pane mytabpane">
+            @Html.TextArea("Description", new { @class="form-control",rows=15,placeholder="Advertisement Detail"})
+        </div>
+        @*Images Upload Tab*@
+        <div class="tab-pane mytabpane" id="imgform">
+            <input type="file" id="file1" name="photo1" />
+            <input type="file" id="file2" name="photo2" />
+            <input type="file" id="file3" name="photo3" />
+        </div>
+    </div>
+    <div class="form-group" style="margin:10px 10px">
+        <input type="reset" class="btn btn-danger glyphicon glyphicon-remove-circle" value="Cancel" />
+        <input type="submit" class="btn btn-success glyphicon glyphicon-save" value="Save" />
+
+    </div>
+}
+@section myscript{
+    <script type="text/javascript">
+        $(function () {
+
+            $("#CountryLId").change(function () {
+                var cid = $(this).select("option:selected").val();
+                alert(cid)
+                $.ajax(
+                    {
+                        url: "/LocationViewHandle/province/" + cid,
+                        type: "GET"
+                    }
+                ).done(function (result) {
+                    $("#stateDiv").html(result);
+                    $("#Province").change(function () {
+
+                        var PID = $(this).select("option:selected").val();
+                        debugger;
+                        alert(PID);
+                        $.ajax(
+                            {
+                                url: "/LocationViewHandle/City/" + PID,
+                                type: "GET"
+                            }
+                        ).done(function (result1) {
+                            $("#cityDiv").html(result1);
+                        });
+                    });//Close Second list
+
+                });
+            });
+
+
+            //catagory list Selected
+            $("#CatagotyId").change(function () {
+                var cataId = $(this).select("option:selected").val();
+                $.ajax(
+                    {
+                        url: "/LocationViewHandle/GetSubCatagory/" + cataId,
+                        type: "GET"
+                    }
+                ).done(function (result2) {
+                    $("#subCatagoryId").html(result2);
+                });
+            });
+
+        });
+    </script>
+
+} 

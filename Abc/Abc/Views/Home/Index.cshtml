@@ -1,0 +1,10 @@
+﻿@using Abc.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<AdvertisementSumModel> newAdvertissements = ViewBag.NewAdvs;
+}
+
+<h2>Advrtisements</h2>
+@Html.Partial("~/Views/Shared/_AdvertisementSumList.cshtml",newAdvertissements)
+

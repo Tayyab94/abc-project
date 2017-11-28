@@ -1,0 +1,35 @@
+﻿@model ClassLibrary1.PakClassified.Catagory
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div class="row">
+    <div class="col-lg-6">
+         <div class="panel">
+             <div class="panel-heading bg-danger">
+                 <div class="panel-title">
+                     Catagories Add
+                 </div>
+             </div>
+             <div class="panel-body">
+                 @using (Html.BeginForm("Index", "Catagory", FormMethod.Post))
+                 {
+                     <div class="form-horizontal">
+                         @Html.AntiForgeryToken()
+                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                         <div class="form-group">
+                             @Html.LabelFor(m => m.Name, "Catagory Name", new { @class = "control-label col-md-5" })
+                             @Html.TextBox("cName", null, htmlAttributes: new { @class = "form-control" })
+                         </div>
+                      <div class="form-group">
+                      <input class="btn btn-primary" type="submit" value="Save" />
+                          
+                      </div> 
+                     </div>
+                     
+                 }
+             </div>
+         </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Search
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group form-inline">
+                    <div class="input-group" id="catDiv">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-tags"></span></span>
+                        @Html.DropDownList("CatagoryId", (IEnumerable<SelectListItem>)ViewBag.Catagory, "- Selec Catagory -", new { @class = "form-control" })
+                    </div>
+                    <div class="input-group" id="subCatDiv">
+
+                    </div>
+                </div>
+                <button class="bt">click me</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section myScript{
+    <script type="text/javascript">
+        $(function () {
+
+            // Idiot , wo to request hi ni kr raha
+
+            $("#CatagoryId").change(function () {
+                var cid = $(this).select("option:selected").val();
+                //alert(cid);
+                console.log(cid);
+                $.ajax({
+                    url: "/CatagotyHandler/Index/" + cid,
+                    type: "GET"
+                }).done(function (result) {
+                    //alert(result.html);
+                    $("#subCatDiv").html(result);
+                }).fail(function (xhr, status, error) {
+                    things = xhr.responseText + " error = " + error;
+                    alert(things);
+                });
+            });
+
+            $(".bt").click(function (e) {
+                $.ajax({
+                    url: "/Advertisement/GetSubCatagory/1",
+                    method: "GET"
+                }).done(function (result) {
+                    //alert(result.html);
+                    $("#subCatDiv").html(result);
+                }).fail(function (xhr, status, error) {
+                    things = xhr.responseText + " error = " + error;
+                    alert(things);
+                });
+            });
+        });
+    </script>
+}
+
+

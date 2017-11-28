@@ -1,0 +1,53 @@
+﻿@using ClassLibrary1.UserMange
+@{
+    User objCurrentUser = (User)Session[WebUtil.CURRENT_USER];
+} 
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    @RenderSection("myStyles", false)
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainmenue">
+                    <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                </button>
+                <a class="navbar-brand" href="/Home/Admin"><span class="glyphicon glyphicon-tags"></span> PakClassified</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mainmenue">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> @currentUser.FullName <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Users/UserProfile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                            <li><a href="/Users/RecoverPassword"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/Users/Logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <header class="container-fluid" style="padding:0px;">
+        @RenderSection("banner", false)
+    </header>
+    <div id="maincontents" class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @RenderSection("myScript", false)
+</body>
+</html>

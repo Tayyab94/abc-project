@@ -1,0 +1,38 @@
+﻿@model ICollection<ClassLibrary1.PakClassified.Catagory>
+@{
+    ViewBag.Title = "ShowCatagory";
+}
+
+<h2>ShowCatagory</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Show_Catagory
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-responsive">
+                    <thead style="border:2px solid #808080; color:darkcyan; background-color:aqua">
+                        <tr>
+                            <td>
+                                ID
+                            </td>
+                            <td>Name</td>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

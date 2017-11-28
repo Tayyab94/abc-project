@@ -1,0 +1,17 @@
+﻿@using ClassLibrary1.PakClassified;
+@model Advertisement
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+@using (Html.BeginForm("Delete", "Advertisement", FormMethod.Post))
+{
+    <label>Id</label>
+    @Html.TextBoxFor(m=>m.Id,null, null)
+
+     @Html.ActionLink("Delete", "Delete", "Advertisement", new { id = Model.Id }, null)
+    <input  type="submit" value="Delete"/>
+}
+
